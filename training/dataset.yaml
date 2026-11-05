@@ -1,0 +1,8 @@
+# RoadGuardAI Pothole Dataset Configuration
+path: C:/Users/vikram/OneDrive/Desktop/RoadGuardAI/datasets/pothole
+train: images/train
+val: images/val
+test: images/test
+
+nc: 1
+names: ['pothole']

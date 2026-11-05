@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoadGuardAI – Intelligent Road Safety & Pothole Detection</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Light Accents -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="app-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+        <div class="brand-name">RoadGuardAI</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Overview</div>
+        <a class="nav-item active" data-nav="welcome">
+          <i class="fas fa-home"></i>
+          <span>Welcome</span>
+        </a>
+        <a class="nav-item" data-nav="dashboard">
+          <i class="fas fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" data-nav="features">
+          <i class="fas fa-layer-group"></i>
+          <span>Features</span>
+        </a>
+
+        <div class="nav-section-title">AI Detection</div>
+        <a class="nav-item" data-nav="image">
+          <i class="fas fa-image"></i>
+          <span>Image Detection</span>
+        </a>
+        <a class="nav-item" data-nav="video">
+          <i class="fas fa-video"></i>
+          <span>Video Analysis</span>
+        </a>
+        <a class="nav-item" data-nav="webcam">
+          <i class="fas fa-camera"></i>
+          <span>Live Webcam</span>
+        </a>
+
+        <div class="nav-section-title">Analytics & ML</div>
+        <a class="nav-item" data-nav="performance">
+          <i class="fas fa-bullseye"></i>
+          <span>Model Accuracy</span>
+        </a>
+        <a class="nav-item" data-nav="dataset">
+          <i class="fas fa-database"></i>
+          <span>Dataset Splits</span>
+        </a>
+        <a class="nav-item" data-nav="history">
+          <i class="fas fa-clock-rotate-left"></i>
+          <span>Detection History</span>
+        </a>
+
+        <div class="nav-section-title">System</div>
+        <a class="nav-item" data-nav="about">
+          <i class="fas fa-circle-info"></i>
+          <span>About Project</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div>
+          <span style="display: block; font-weight: 600; color: var(--text-primary);">BTech Capstone</span>
+          <span>v1.0 • YOLO11n</span>
+        </div>
+        <i class="fas fa-microchip" style="color: var(--accent-cyan); font-size: 1.1rem;"></i>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title-area">
+          <h2 class="page-title" id="current-page-title">Welcome to RoadGuardAI</h2>
+        </div>
+        <div class="topbar-status-area">
+          <div class="status-badge" id="system-status-pill">
+            <span class="status-dot"></span>
+            <span id="system-status-text">Checking GPU & Model...</span>
+          </div>
+          <a href="#image" data-nav="image" class="btn btn-primary btn-sm">
+            <i class="fas fa-bolt"></i> Quick Scan
+          </a>
+        </div>
+      </header>
+
+      <!-- CONTENT VIEWS CONTAINER -->
+      <main class="content-container">
+
+        <!-- 1. WELCOME / LANDING PAGE -->
+        <section class="page-view active" id="view-welcome">
+          <div class="hero-section">
+            <div class="hero-tagline">
+              <i class="fas fa-brain"></i> Powered by Deep Learning & Computer Vision
+            </div>
+            <h1 class="hero-heading">Smarter Roads.<br>Safer Journeys.</h1>
+            <p class="hero-desc">
+              RoadGuardAI is an end-to-end artificial intelligence platform engineered to detect road potholes and asphalt degradation with millisecond latency using advanced YOLO object detection models.
+            </p>
+            <div class="hero-cta-group">
+              <a href="#image" data-nav="image" class="btn btn-primary">
+                <i class="fas fa-play"></i> Start Detection
+              </a>
+              <a href="#features" data-nav="features" class="btn btn-outline">
+                <i class="fas fa-compass"></i> Explore Features
+              </a>
+              <a href="#performance" data-nav="performance" class="btn btn-outline">
+                <i class="fas fa-chart-line"></i> View Model Metrics
+              </a>
+            </div>
+          </div>
+
+          <!-- How It Works Section -->
+          <div style="margin-top: 3rem;">
+            <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;">How RoadGuardAI Works</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+              <div class="glass-card">
+                <div class="metric-icon-wrap icon-cyan" style="margin-bottom: 1rem;">
+                  <i class="fas fa-upload"></i>
+                </div>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">1. Data Ingestion</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                  Upload high-resolution road photography, dashcam video footage, or stream live frames from a vehicle-mounted camera.
+                </p>
+              </div>
+
+              <div class="glass-card">
+                <div class="metric-icon-wrap icon-purple" style="margin-bottom: 1rem;">
+                  <i class="fas fa-network-wired"></i>
+                </div>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">2. Neural Inference</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                  Trained YOLO neural network processes frames in parallel on dedicated NVIDIA CUDA GPUs, performing non-maximum suppression (NMS) and bounding box regression.
+                </p>
+              </div>
+
+              <div class="glass-card">
+                <div class="metric-icon-wrap icon-emerald" style="margin-bottom: 1rem;">
+                  <i class="fas fa-chart-simple"></i>
+                </div>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">3. Audit & Reporting</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                  Instant telemetry: pothole counts, confidence metrics, annotated visual overlays, and persistent audit logs in an SQLite database.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. FEATURES PAGE -->
+        <section class="page-view" id="view-features">
+          <div style="margin-bottom: 2rem;">
+            <h3 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem;">System Capabilities</h3>
+            <p style="color: var(--text-secondary);">Enterprise-grade road infrastructure monitoring tools engineered for reliability and precision.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+            <div class="glass-card">
+              <div class="metric-icon-wrap icon-cyan" style="margin-bottom: 1rem;"><i class="fas fa-cube"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">YOLO Pothole Detection</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">State-of-the-art single-stage convolutional architecture trained on genuine road asphalt datasets for superior small and large pothole localization.</p>
+            </div>
+
+            <div class="glass-card">
+              <div class="metric-icon-wrap icon-purple" style="margin-bottom: 1rem;"><i class="fas fa-image"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Multi-Format Image Analysis</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">High-throughput drag-and-drop analysis supporting JPG, PNG, WEBP, and BMP with configurable confidence thresholds and bounding box badges.</p>
+            </div>
+
+            <div class="glass-card">
+              <div class="metric-icon-wrap icon-amber" style="margin-bottom: 1rem;"><i class="fas fa-film"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Automated Dashcam Video Pipeline</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">OpenCV-accelerated video decoding analyzing frames sequentially, producing downloadable annotated video files with frame-by-frame telemetry.</p>
+            </div>
+
+            <div class="glass-card">
+              <div class="metric-icon-wrap icon-emerald" style="margin-bottom: 1rem;"><i class="fas fa-video"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Real-Time Webcam Streaming</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Ultra-low latency live frame capture and GPU inference at high FPS for moving vehicle demonstrations and live road surveys.</p>
+            </div>
+
+            <div class="glass-card">
+              <div class="metric-icon-wrap icon-cyan" style="margin-bottom: 1rem;"><i class="fas fa-chart-line"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Academic Performance Metrics</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Full mAP@50, mAP@50-95, Precision-Recall curves, and confusion matrix benchmarking computed strictly on an unseen 10% test split.</p>
+            </div>
+
+            <div class="glass-card">
+              <div class="metric-icon-wrap icon-purple" style="margin-bottom: 1rem;"><i class="fas fa-clock-rotate-left"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Persistent SQLite History</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Automated logging of every inference run with timestamping, pothole counts, confidence scores, and preview links that persist across server restarts.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. DASHBOARD -->
+        <section class="page-view" id="view-dashboard">
+          <div class="metrics-grid">
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Images Scanned</h4>
+                <div class="metric-number" id="stat-images">0</div>
+              </div>
+              <div class="metric-icon-wrap icon-cyan"><i class="fas fa-images"></i></div>
+            </div>
+
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Videos Analyzed</h4>
+                <div class="metric-number" id="stat-videos">0</div>
+              </div>
+              <div class="metric-icon-wrap icon-purple"><i class="fas fa-video"></i></div>
+            </div>
+
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Potholes Detected</h4>
+                <div class="metric-number" id="stat-potholes" style="color: var(--accent-amber);">0</div>
+              </div>
+              <div class="metric-icon-wrap icon-amber"><i class="fas fa-road"></i></div>
+            </div>
+
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Avg Confidence</h4>
+                <div class="metric-number" id="stat-avg-conf" style="color: var(--accent-emerald);">0%</div>
+              </div>
+              <div class="metric-icon-wrap icon-emerald"><i class="fas fa-gauge-high"></i></div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem;">
+            <!-- Chart Card -->
+            <div class="glass-card">
+              <h4 style="font-size: 1.05rem; margin-bottom: 1rem;">Detection Distribution</h4>
+              <div style="height: 260px; position: relative;">
+                <canvas id="dashboardChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Recent Activity Card -->
+            <div class="glass-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h4 style="font-size: 1.05rem;">Recent Detections</h4>
+                <a href="#history" data-nav="history" style="font-size: 0.85rem; color: var(--accent-cyan); text-decoration: none;">View All</a>
+              </div>
+              <div id="dashboard-recent-activity">
+                <div style="padding: 2rem; text-align: center; color: var(--text-muted);">Loading recent scans...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. IMAGE DETECTION -->
+        <section class="page-view" id="view-image">
+          <div class="detection-grid">
+            
+            <!-- Upload Column -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Upload Road Image</h3>
+              
+              <div class="upload-zone" id="img-drop-zone">
+                <i class="fas fa-cloud-arrow-up upload-icon"></i>
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Drag & drop image here</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">or click to browse from device (JPG, PNG, WEBP)</p>
+                <input type="file" id="img-file-input" accept="image/*" style="display: none;">
+              </div>
+
+              <!-- Controls -->
+              <div style="margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
+                  <span>Confidence Threshold</span>
+                  <span id="img-conf-value" style="color: var(--accent-cyan); font-weight: 600;">25%</span>
+                </div>
+                <input type="range" id="img-conf-slider" min="0.10" max="0.90" step="0.05" value="0.25" style="width: 100%; accent-color: var(--accent-cyan);">
+              </div>
+
+              <div style="margin-top: 1.5rem;">
+                <button id="btn-detect-image" class="btn btn-outline" style="width: 100%;" disabled>
+                  <i class="fas fa-search"></i> Detect Potholes
+                </button>
+              </div>
+            </div>
+
+            <!-- Preview & Result Column -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Original Preview</h3>
+              <div class="preview-container">
+                <span id="img-placeholder-text" style="color: var(--text-muted);">No image selected</span>
+                <img id="img-original-preview" class="preview-media" style="display: none;" alt="Original preview">
+              </div>
+            </div>
+          </div>
+
+          <!-- Processed Result Card -->
+          <div class="glass-card" id="img-result-card" style="margin-top: 1.5rem; display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.25rem; color: var(--accent-cyan);">
+                <i class="fas fa-circle-check"></i> Detection Results
+              </h3>
+              <button id="btn-download-img" class="btn btn-primary btn-sm">
+                <i class="fas fa-download"></i> Download Processed Image
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start;">
+              <div class="preview-container" style="background: rgba(0,0,0,0.6);">
+                <img id="img-processed-result" class="preview-media" alt="YOLO Annotated Detection">
+              </div>
+
+              <div>
+                <h4 style="font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 1rem;">Inference Telemetry</h4>
+                
+                <div class="results-stats-panel" style="grid-template-columns: 1fr; gap: 0.75rem;">
+                  <div class="stat-chip">
+                    <div class="val" id="res-pothole-count" style="color: var(--accent-amber);">0</div>
+                    <div class="lbl">Potholes Identified</div>
+                  </div>
+                  <div class="stat-chip">
+                    <div class="val" id="res-avg-conf" style="color: var(--accent-emerald);">0%</div>
+                    <div class="lbl">Average Confidence</div>
+                  </div>
+                  <div class="stat-chip">
+                    <div class="val" id="res-proc-time" style="color: var(--accent-cyan);">0 ms</div>
+                    <div class="lbl">Inference Latency</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. VIDEO DETECTION -->
+        <section class="page-view" id="view-video">
+          <div class="detection-grid">
+            
+            <!-- Upload Column -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Upload Dashcam Video</h3>
+              
+              <div class="upload-zone" id="vid-drop-zone">
+                <i class="fas fa-file-video upload-icon" style="color: var(--accent-purple);"></i>
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Drag & drop video clip</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">MP4, AVI, MOV (Road survey or dashcam)</p>
+                <input type="file" id="vid-file-input" accept="video/*" style="display: none;">
+              </div>
+
+              <!-- Controls -->
+              <div style="margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
+                  <span>Confidence Threshold</span>
+                  <span id="vid-conf-value" style="color: var(--accent-purple); font-weight: 600;">25%</span>
+                </div>
+                <input type="range" id="vid-conf-slider" min="0.10" max="0.90" step="0.05" value="0.25" style="width: 100%; accent-color: var(--accent-purple);">
+              </div>
+
+              <div style="margin-top: 1.5rem;">
+                <button id="btn-detect-video" class="btn btn-outline" style="width: 100%;" disabled>
+                  <i class="fas fa-play"></i> Start Video Analysis
+                </button>
+              </div>
+
+              <!-- Progress bar container -->
+              <div id="vid-progress-card" style="margin-top: 1rem; display: none;">
+                <p style="font-size: 0.85rem; color: var(--accent-purple); margin-bottom: 0.5rem;">
+                  <i class="fas fa-spinner fa-spin"></i> Processing video frames with YOLO...
+                </p>
+                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden;">
+                  <div style="width: 100%; height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); animation: pulse-dot 1.5s infinite;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preview Column -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Video Preview</h3>
+              <div class="preview-container">
+                <span id="vid-placeholder-text" style="color: var(--text-muted);">No video selected</span>
+                <video id="vid-original-preview" class="preview-media" controls style="display: none;"></video>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video Results Card -->
+          <div class="glass-card" id="vid-result-card" style="margin-top: 1.5rem; display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.25rem; color: var(--accent-purple);">
+                <i class="fas fa-circle-check"></i> Video Processing Complete
+              </h3>
+              <button id="btn-download-vid" class="btn btn-primary btn-sm">
+                <i class="fas fa-download"></i> Download Annotated Video
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start;">
+              <div class="preview-container" style="background: rgba(0,0,0,0.7);">
+                <video id="vid-processed-player" class="preview-media" controls autoplay loop></video>
+              </div>
+
+              <div>
+                <h4 style="font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 1rem;">Video Telemetry</h4>
+                
+                <div class="results-stats-panel" style="grid-template-columns: 1fr; gap: 0.75rem;">
+                  <div class="stat-chip">
+                    <div class="val" id="vid-res-total-potholes" style="color: var(--accent-amber);">0</div>
+                    <div class="lbl">Cumulative Pothole Detections</div>
+                  </div>
+                  <div class="stat-chip">
+                    <div class="val" id="vid-res-max-frame" style="color: var(--accent-rose);">0</div>
+                    <div class="lbl">Max Potholes in Single Frame</div>
+                  </div>
+                  <div class="stat-chip">
+                    <div class="val" id="vid-res-fps" style="color: var(--accent-cyan);">0 fps</div>
+                    <div class="lbl">Processing Throughput</div>
+                  </div>
+                  <div class="stat-chip">
+                    <div class="val" id="vid-res-time" style="color: var(--text-primary);">0 s</div>
+                    <div class="lbl">Analysis Duration</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. REAL-TIME LIVE WEBCAM -->
+        <section class="page-view" id="view-webcam">
+          <div class="glass-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h3 style="font-size: 1.25rem;">Real-Time Camera Stream</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Streams live frames directly to YOLO for instant bounding-box inference.</p>
+              </div>
+              <div style="display: flex; gap: 0.75rem;">
+                <button id="btn-start-webcam" class="btn btn-primary btn-sm">
+                  <i class="fas fa-video"></i> Start Camera
+                </button>
+                <button id="btn-stop-webcam" class="btn btn-outline btn-sm" style="display: none; border-color: var(--accent-rose); color: var(--accent-rose);">
+                  <i class="fas fa-stop"></i> Stop Camera
+                </button>
+              </div>
+            </div>
+
+            <!-- Video Stream Container -->
+            <div class="preview-container" style="height: 520px; background: #000000; position: relative;">
+              <!-- Invisible raw video feed for frame capture -->
+              <video id="webcam-stream" playsinline muted style="display: none;"></video>
+              
+              <!-- Real-time annotated output frame sent from backend -->
+              <img id="webcam-annotated-output" style="max-width: 100%; max-height: 100%; object-fit: contain; display: none;" alt="Live Detection Stream">
+
+              <!-- Real-Time HUD Overlay -->
+              <div style="position: absolute; top: 1.5rem; left: 1.5rem; background: rgba(15, 23, 42, 0.85); border: 1px solid var(--border-glow); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); backdrop-filter: blur(8px);">
+                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Live Status</div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.2rem;">
+                  <span class="status-dot"></span>
+                  <span id="webcam-pothole-counter" style="font-size: 1.2rem; font-weight: 700; color: var(--accent-amber);">0</span>
+                  <span style="font-size: 0.85rem; color: var(--text-secondary);">Potholes in view</span>
+                </div>
+              </div>
+
+              <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(15, 23, 42, 0.85); border: 1px solid var(--border-subtle); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); backdrop-filter: blur(8px); text-align: right;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Stream FPS</div>
+                <div id="webcam-fps-counter" style="font-size: 1.2rem; font-weight: 700; color: var(--accent-cyan); margin-top: 0.2rem;">0.0 FPS</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. MODEL PERFORMANCE -->
+        <section class="page-view" id="view-performance">
+          <div id="perf-not-trained-msg" class="glass-card" style="text-align: center; padding: 4rem 2rem; display: none;">
+            <i class="fas fa-clock-rotate-left" style="font-size: 3rem; color: var(--accent-amber); margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;">Model Training in Progress</h3>
+            <p style="color: var(--text-secondary);">Evaluation metrics will automatically appear here once test verification finishes.</p>
+          </div>
+
+          <div id="perf-metrics-content">
+            <!-- Summary KPI Grid -->
+            <div class="metrics-grid">
+              <div class="glass-card metric-card">
+                <div class="metric-info">
+                  <h4>mAP@50 (Test Set)</h4>
+                  <div class="metric-number" id="metric-map50" style="color: var(--accent-emerald);">--%</div>
+                </div>
+                <div class="metric-icon-wrap icon-emerald"><i class="fas fa-award"></i></div>
+              </div>
+
+              <div class="glass-card metric-card">
+                <div class="metric-info">
+                  <h4>Precision</h4>
+                  <div class="metric-number" id="metric-precision" style="color: var(--accent-cyan);">--%</div>
+                </div>
+                <div class="metric-icon-wrap icon-cyan"><i class="fas fa-crosshairs"></i></div>
+              </div>
+
+              <div class="glass-card metric-card">
+                <div class="metric-info">
+                  <h4>Recall</h4>
+                  <div class="metric-number" id="metric-recall" style="color: var(--accent-blue);">--%</div>
+                </div>
+                <div class="metric-icon-wrap icon-purple"><i class="fas fa-bullseye"></i></div>
+              </div>
+
+              <div class="glass-card metric-card">
+                <div class="metric-info">
+                  <h4>F1-Score</h4>
+                  <div class="metric-number" id="metric-f1" style="color: var(--accent-purple);">--%</div>
+                </div>
+                <div class="metric-icon-wrap icon-purple"><i class="fas fa-scale-balanced"></i></div>
+              </div>
+
+              <div class="glass-card metric-card">
+                <div class="metric-info">
+                  <h4>mAP@50-95</h4>
+                  <div class="metric-number" id="metric-map5095" style="color: var(--accent-amber);">--%</div>
+                </div>
+                <div class="metric-icon-wrap icon-amber"><i class="fas fa-chart-area"></i></div>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+              <div class="glass-card">
+                <h4 style="font-size: 1.05rem; margin-bottom: 1rem;">Test Benchmark Metrics (Object Detection)</h4>
+                <div style="height: 280px; position: relative;">
+                  <canvas id="perfRadarChart"></canvas>
+                </div>
+              </div>
+
+              <div class="glass-card">
+                <h4 style="font-size: 1.05rem; margin-bottom: 1rem;">Training Environment</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.9rem;">
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                    <span style="color: var(--text-muted);">Hardware:</span>
+                    <strong id="perf-device" style="color: var(--accent-cyan);">NVIDIA RTX 4050</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                    <span style="color: var(--text-muted);">Total Epochs:</span>
+                    <strong id="perf-epochs">25</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                    <span style="color: var(--text-muted);">Training Time:</span>
+                    <strong id="perf-duration">N/A</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                    <span style="color: var(--text-muted);">Unseen Test Images:</span>
+                    <strong id="perf-test-images">218</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Academic Note Card -->
+            <div class="glass-card" style="border-left: 4px solid var(--accent-cyan); margin-bottom: 1.5rem;">
+              <h4 style="font-size: 1rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">
+                <i class="fas fa-graduation-cap"></i> Academic Note: Classification Accuracy vs. Object Detection mAP
+              </h4>
+              <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6;">
+                In image classification, accuracy simply checks whether a single category label matches. In <strong>Object Detection</strong>, a model must solve both <em>localization</em> (drawing tight coordinates around potholes with high Intersection-over-Union) and <em>classification</em>. Therefore, <strong>mAP (Mean Average Precision)</strong> and <strong>Precision-Recall curves</strong> are the standard academic benchmarks, strictly evaluating precision across IoU thresholds without artificial fabrication.
+              </p>
+            </div>
+
+            <!-- Training Artifacts Grid -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div class="glass-card">
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.75rem;">Precision-Recall (PR) Curve</h4>
+                <div class="preview-container" style="min-height: 260px;">
+                  <img src="assets/evaluation/PR_curve.png" onerror="this.src='assets/training/results.png'" style="max-width: 100%; max-height: 280px;" alt="PR Curve">
+                </div>
+              </div>
+              <div class="glass-card">
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.75rem;">Confusion Matrix</h4>
+                <div class="preview-container" style="min-height: 260px;">
+                  <img src="assets/evaluation/confusion_matrix.png" onerror="this.src='assets/training/confusion_matrix.png'" style="max-width: 100%; max-height: 280px;" alt="Confusion Matrix">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. DATASET PAGE -->
+        <section class="page-view" id="view-dataset">
+          <div class="metrics-grid">
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Total Road Images</h4>
+                <div class="metric-number" id="ds-total-images">2,083</div>
+              </div>
+              <div class="metric-icon-wrap icon-cyan"><i class="fas fa-images"></i></div>
+            </div>
+
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Total Annotations</h4>
+                <div class="metric-number" id="ds-total-annotations" style="color: var(--accent-amber);">4,246</div>
+              </div>
+              <div class="metric-icon-wrap icon-amber"><i class="fas fa-draw-polygon"></i></div>
+            </div>
+
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Base Scene Groups</h4>
+                <div class="metric-number" id="ds-unique-scenes" style="color: var(--accent-purple);">671</div>
+              </div>
+              <div class="metric-icon-wrap icon-purple"><i class="fas fa-layer-group"></i></div>
+            </div>
+
+            <div class="glass-card metric-card">
+              <div class="metric-info">
+                <h4>Data Leakage</h4>
+                <div class="metric-number" style="color: var(--accent-emerald);">0.0%</div>
+              </div>
+              <div class="metric-icon-wrap icon-emerald"><i class="fas fa-shield-check"></i></div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="glass-card">
+              <h4 style="font-size: 1.05rem; margin-bottom: 1rem;">Split Ratio (70 / 20 / 10)</h4>
+              <div style="height: 240px; position: relative;">
+                <canvas id="datasetSplitChart"></canvas>
+              </div>
+            </div>
+
+            <div class="glass-card">
+              <h4 style="font-size: 1.05rem; margin-bottom: 1rem;">Split Breakdown & Leakage Prevention</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.9rem;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-muted);">Training Split:</span>
+                  <strong id="ds-train-split" style="color: var(--accent-cyan);">1,445 images (69.4%)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-muted);">Validation Split:</span>
+                  <strong id="ds-val-split" style="color: var(--accent-blue);">420 images (20.2%)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-muted);">Testing Split:</span>
+                  <strong id="ds-test-split" style="color: var(--accent-purple);">218 images (10.5%)</strong>
+                </div>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+                  <strong>Leakage Prevention Guarantee:</strong> Augmented versions of the same original scene (grouped by root hash identifier) were strictly kept together in the same split. None of the test scenes were seen during model training.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample Ground-Truth Visualizations -->
+          <div class="glass-card">
+            <h4 style="font-size: 1.05rem; margin-bottom: 1rem;">Verified Ground-Truth Bounding Box Annotations</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+              <img src="assets/dataset_viz/sample_groundtruth_1.jpg" style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);" alt="Groundtruth Sample 1">
+              <img src="assets/dataset_viz/sample_groundtruth_2.jpg" style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);" alt="Groundtruth Sample 2">
+              <img src="assets/dataset_viz/sample_groundtruth_3.jpg" style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);" alt="Groundtruth Sample 3">
+              <img src="assets/dataset_viz/sample_groundtruth_4.jpg" style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);" alt="Groundtruth Sample 4">
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. DETECTION HISTORY -->
+        <section class="page-view" id="view-history">
+          <div class="glass-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+              <h3 style="font-size: 1.25rem;">Detection Audit Log</h3>
+              <div>
+                <select id="history-type-filter" style="background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-subtle); padding: 0.45rem 0.85rem; border-radius: var(--radius-sm); outline: none;">
+                  <option value="">All Detection Types</option>
+                  <option value="image">Images Only</option>
+                  <option value="video">Videos Only</option>
+                  <option value="webcam">Live Webcam Only</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="data-table-wrap">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Type</th>
+                    <th>Potholes</th>
+                    <th>Avg Confidence</th>
+                    <th>Date & Time</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="history-table-body">
+                  <tr>
+                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">Loading history records...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. ABOUT PROJECT -->
+        <section class="page-view" id="view-about">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem;">About RoadGuardAI</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem;">
+              <strong>RoadGuardAI: Intelligent Road Safety and Pothole Detection Using Artificial Intelligence</strong> is a comprehensive Computer Vision capstone project engineered to address the critical global challenge of deteriorating road infrastructure and vehicular safety. By leveraging lightweight single-stage convolutional detection algorithms, it provides municipal bodies and drivers with actionable road hazard analytics.
+            </p>
+
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">System Architecture</h4>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); padding: 1.5rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 1.5rem;">
+              [Dashcam / Images / Live Stream]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+              [FastAPI REST API / Async Web Server]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;├──► [OpenCV Frame Extraction & Video Engine]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;├──► [Ultralytics YOLO11n Neural Engine (CUDA Accelerated)]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;└──► [SQLite Database Storage & Audit History]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+              [Interactive Glassmorphic SaaS Dashboard]
+            </div>
+
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Technology Stack</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
+              <span class="status-badge" style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); border-color: rgba(6, 182, 212, 0.25);">PyTorch 2.6 (CUDA 12.4)</span>
+              <span class="status-badge" style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); border-color: rgba(139, 92, 246, 0.25);">Ultralytics YOLO11n</span>
+              <span class="status-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border-color: rgba(59, 130, 246, 0.25);">Python FastAPI</span>
+              <span class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-emerald); border-color: rgba(16, 185, 129, 0.25);">OpenCV 5.0</span>
+              <span class="status-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-amber); border-color: rgba(245, 158, 11, 0.25);">SQLite 3</span>
+              <span class="status-badge" style="background: rgba(255, 255, 255, 0.08); color: var(--text-primary); border-color: var(--border-subtle);">Chart.js 4.4</span>
+              <span class="status-badge" style="background: rgba(255, 255, 255, 0.08); color: var(--text-primary); border-color: var(--border-subtle);">NVIDIA RTX 4050 Laptop GPU</span>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

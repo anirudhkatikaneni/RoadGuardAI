@@ -1,0 +1,17 @@
+# RoadGuardAI Requirements
+torch
+torchvision
+ultralytics
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+aiofiles
+matplotlib
+pyyaml
+tqdm
+opencv-python
+pillow
+numpy
+scikit-learn
+pandas

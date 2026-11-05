@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# Ultralytics & Model Runs
+runs/
+*.pt
+!models/best.pt
+
+# User Uploads and Processed Outputs
+uploads/*
+!uploads/.gitkeep
+outputs/*
+!outputs/.gitkeep
+
+# Datasets
+datasets/*
+!datasets/.gitkeep
+
+# SQLite Database
+*.db
+*.sqlite3
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editor
+.vscode/
+
+# Archive files
+*.zip
+
+# Temporary files
+*.log
+
+# Ignore nested accidental repository
+/RoadGuardAI/
+
+# Extracted training dataset
+/archive/

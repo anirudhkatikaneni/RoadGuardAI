@@ -1,0 +1,56 @@
+{
+    "dataset_name": "RoadGuardAI Pothole Detection Dataset",
+    "total_images": 2083,
+    "total_annotations": 4246,
+    "image_formats": {
+        ".jpg": 2083
+    },
+    "dimension_stats": {
+        "min_width": 640,
+        "max_width": 640,
+        "min_height": 640,
+        "max_height": 640,
+        "avg_width": 640,
+        "avg_height": 640
+    },
+    "annotation_format": "YOLO normalized format (class x_center y_center width height)",
+    "num_classes": 1,
+    "class_names": [
+        "pothole"
+    ],
+    "splits": {
+        "train": {
+            "images": 1445,
+            "annotations": 2897,
+            "percentage": 69.4
+        },
+        "val": {
+            "images": 420,
+            "annotations": 890,
+            "percentage": 20.2
+        },
+        "test": {
+            "images": 218,
+            "annotations": 459,
+            "percentage": 10.5
+        }
+    },
+    "data_quality_report": {
+        "missing_labels_count": 0,
+        "empty_annotation_files_count": 0,
+        "corrupted_images_count": 0,
+        "duplicate_images_count": 6,
+        "invalid_annotations_count": 0,
+        "data_leakage_prevented": true,
+        "unique_scenes": 671
+    },
+    "sample_visualizations": [
+        "sample_groundtruth_1.jpg",
+        "sample_groundtruth_2.jpg",
+        "sample_groundtruth_3.jpg",
+        "sample_groundtruth_4.jpg",
+        "sample_groundtruth_5.jpg",
+        "sample_groundtruth_6.jpg"
+    ],
+    "data_yaml_path": "C:\\Users\\vikram\\OneDrive\\Desktop\\RoadGuardAI\\datasets\\pothole\\data.yaml"
+}

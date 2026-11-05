@@ -1,0 +1,15 @@
+{
+    "status": "trained",
+    "model_variant": "yolo11n.pt",
+    "epochs": 25,
+    "batch_size": 16,
+    "imgsz": 640,
+    "device": "0",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "training_duration_seconds": 695.29,
+    "training_duration_human": "11m 35s",
+    "best_model_path": "C:\\Users\\vikram\\OneDrive\\Desktop\\RoadGuardAI\\models\\best.pt",
+    "last_model_path": "C:\\Users\\vikram\\OneDrive\\Desktop\\RoadGuardAI\\models\\last.pt",
+    "save_dir": "C:\\Users\\vikram\\OneDrive\\Desktop\\RoadGuardAI\\runs\\detect\\roadguard_model",
+    "timestamp": "2026-11-05 10:06:56"
+}
